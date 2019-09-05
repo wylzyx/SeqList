@@ -2,8 +2,8 @@
 
 void SeqListInit(SeqList* s, size_t capacity)
 {
-	// ÔÚ¶ÑÉÏ·ÖÅäË³Ğò±íµÄ´æ´¢¿Õ¼ä
-	// ³õÊ¼»¯ÈİÁ¿¡¢size ×Ö¶Î
+	// åœ¨å †ä¸Šåˆ†é…é¡ºåºè¡¨çš„å­˜å‚¨ç©ºé—´
+	// åˆå§‹åŒ–å®¹é‡ã€size å­—æ®µ
 	assert(s != NULL);
 
 	s->arry = (SeqList*)malloc(sizeof(SeqList)* capacity);
@@ -13,8 +13,8 @@ void SeqListInit(SeqList* s, size_t capacity)
 
 void SeqListDestory(SeqList* s)
 {
-	// ÊÍ·ÅË³Ğò±íµÄ´æ´¢¿Õ¼ä
-	// ¶îÍâµÄ¹¤×÷£¬°Ñ×Ö¶Î reset Îª³õÊ¼Öµ
+	// é‡Šæ”¾é¡ºåºè¡¨çš„å­˜å‚¨ç©ºé—´
+	// é¢å¤–çš„å·¥ä½œï¼ŒæŠŠå­—æ®µ reset ä¸ºåˆå§‹å€¼
 	assert(s != NULL);
 	assert(s->arry != NULL);
 	
@@ -26,8 +26,8 @@ void SeqListDestory(SeqList* s)
 }
 
 // O(n)
-// static ĞŞÊÎº¯Êı¸ü¸ÄÁ´½ÓÊôĞÔ£¬´ÓÍâ²¿Á´½ÓÊôĞÔ¸Ä±äÎªÄÚ²¿Á´½ÓÊôĞÔ
-// ¼ì²éÊı¾İ²åÈëÊ±£¬ÊÇ·ñĞèÒªÀ©Èİ£¬Èç¹ûĞèÒª£¬ÔòÀ©Èİ
+// static ä¿®é¥°å‡½æ•°æ›´æ”¹é“¾æ¥å±æ€§ï¼Œä»å¤–éƒ¨é“¾æ¥å±æ€§æ”¹å˜ä¸ºå†…éƒ¨é“¾æ¥å±æ€§
+// æ£€æŸ¥æ•°æ®æ’å…¥æ—¶ï¼Œæ˜¯å¦éœ€è¦æ‰©å®¹ï¼Œå¦‚æœéœ€è¦ï¼Œåˆ™æ‰©å®¹
 static void CheckCapacity(SeqList* s)
 {
 	if (s->size < s->capacity)
@@ -35,25 +35,25 @@ static void CheckCapacity(SeqList* s)
 		return;
 	}
 
-	// ĞèÒªÀ©ÈİµÄÇé¿ö
-	// ÉêÇëĞÂ¿Õ¼ä
+	// éœ€è¦æ‰©å®¹çš„æƒ…å†µ
+	// ç”³è¯·æ–°ç©ºé—´
 	int newCapacity = 2 * s->capacity;
 	SeqList* newArry = (SeqList*)malloc(sizeof(SeqList)* newCapacity);
-	// copy ÀÏÊı¾İµ½ĞÂ¿Õ¼ä
+	// copy è€æ•°æ®åˆ°æ–°ç©ºé—´
 	for (int i = 0; i < s->size; ++i)
 	{
 		newArry[i] = s->arry[i];
 	}
 
-	// ÊÍ·ÅÀÏ¿Õ¼ä£¬°ÑĞÂ¿Õ¼ä°ó¶¨µ½Ë³Ğò±í½á¹¹Ìå
+	// é‡Šæ”¾è€ç©ºé—´ï¼ŒæŠŠæ–°ç©ºé—´ç»‘å®šåˆ°é¡ºåºè¡¨ç»“æ„ä½“
 	free(s->arry);
 	s->arry = newArry;
 
-	// ¸üĞÂÈİÁ¿
+	// æ›´æ–°å®¹é‡
 	s->capacity = newCapacity;
 }
 
-// Ê±¼ä¸´ÔÓ¶È O(1)
+// æ—¶é—´å¤æ‚åº¦ O(1)
 void SeqListPushBack(SeqList* s, DataType x)
 {
 	assert(s != NULL);
@@ -63,20 +63,25 @@ void SeqListPushBack(SeqList* s, DataType x)
 	
 }
 
-void SeqListPopBack(SeqList* s);
+void SeqListPopBack(SeqList* s)
+{
+	assert(s != NULL);
+	assert(s->size > 0);
+	s->size--;
+}
 
 // O(n)
 void SeqListPushFront(SeqList* s, DataType x)
 {
 	assert(s != NULL);
-	// Êı¾İµÄÒÆ¶¯¹ı³Ì
-	// i ¿Õ¼ä
+	// æ•°æ®çš„ç§»åŠ¨è¿‡ç¨‹
+	// i ç©ºé—´
 	for (int i = s->size; i >= 1; i--)
 	{
 		s->arry[i] = s->arry[i - 1];
 	}
 #if 0
-	// i Êı¾İ
+	// i æ•°æ®
 	for (int i = seqlist->size - 1; i >= 0; i--) 
 	{ 
 		s->arry[i + 1] = s->arry[i];
@@ -87,14 +92,82 @@ void SeqListPushFront(SeqList* s, DataType x)
 	s->size++;
 }
 
-void SeqListPopFront(SeqList* s);
+void SeqListPopFront(SeqList* s)
+{
+	assert(s && s->size > 0);
+	for (int i = 0; i < s->size - 1; i++)
+	{
+		s->arry[i] = s->arry[i + 1];
+	}
+	s->size--;
+}
 
-int SeqListFind(SeqList* s, DataType x);
-void SeqListInsert(SeqList* s, size_t pos, DataType x);
-void SeqListErase(SeqList* s, size_t pos);
-void SeqListRemove(SeqList* s, DataType x);
-void SeqListModify(SeqList* s, size_t pos, DataType x);
-void SeqListPrint(SeqList* s);
+int SeqListFind(SeqList* s, DataType x)
+{
+	assert(s && s->size > 0);
+	int pos;
+	for (int i = 0; i < s->size; i++)
+	{
+		if (s->arry[i] == x)
+		{
+			pos = i;
+			break;
+		}
+	}
+	return pos;
+}
+
+void SeqListInsert(SeqList* s, size_t pos, DataType x)
+{
+	assert(s && pos < s->size);
+	CheckCapacity(s);
+	size_t end = s->size;
+	while (end > 0)
+	{
+		s->arry[end] = s->arry[end - 1];
+		end--;
+	}
+	s->arry[pos] = x;
+	++s->size;
+}
+
+void SeqListErase(SeqList* s, size_t pos)
+{
+	assert(s && pos > 0);
+	CheckCapacity(s);
+	size_t start = pos + 1;
+	while (start < s->size)
+	{
+		s->arry[start - 1] = s->arry[start];
+		start++;
+	}
+	s->size--;
+}
+
+void SeqListRemove(SeqList* s, DataType x)
+{
+	int pos = SeqListFind(s, x);
+	if (pos == -1)
+	{
+		return;
+	}
+	SeqListErase(s, pos);
+}
+
+void SeqListModify(SeqList* s, size_t pos, DataType x)
+{
+	assert(s != NULL);
+	s->arry[pos - 1] = x;
+}
+
+void SeqListPrint(SeqList* s)
+{
+	assert(s && s->size > 0);
+	for (int i = 0; i < s->size; i++)
+	{
+		printf("%4d",s->arry[i]);
+	}
+}
 
 void SeqListBubbleSort(SeqList* s);
 int SeqListBinaryFind(SeqList* s, DataType x);
